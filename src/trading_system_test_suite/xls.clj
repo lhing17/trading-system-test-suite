@@ -16,17 +16,13 @@
                         :F :volume
                         :G :percent-change
                         })
-       (drop 1)
-       (mapv daily/map->Daily)
-       (daily/update-daily)
+       (drop 1)                                             ;; 去掉表头
+       (mapv daily/map->Daily)                              ;; 转换为 Daily 记录
+       (daily/update-daily)                                 ;; 计算自定义的指标
        ))
 
 
 (comment
   (def daily-data (read-daily-data (jio/file "/Users/lianghao/Documents/交易日志/沪深300指数历史数据.xlsx")))
-
-
-
-
 
   )
