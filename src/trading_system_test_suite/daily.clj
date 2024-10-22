@@ -46,11 +46,11 @@
 
 (def config {
              ;; 移动平均值的周期
-             :moving-average-period       10
+             :moving-average-period       60
              ;; 布林带的标准差倍数
              :bollinger-deviation         2
              ;; 更窄的布林带的标准差倍数
-             :thinner-bollinger-deviation 1.52
+             :thinner-bollinger-deviation 1.4
              })
 
 (defn- make-date [year month day]

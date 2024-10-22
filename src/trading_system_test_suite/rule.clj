@@ -36,15 +36,15 @@
 
 
 
-(defrecord BreakoutRule [item direction]
+(defrecord BreakoutRule [item direction price-type]
   Rule
   (match? [_ daily-data index]
     (if (<= index 1)
       false
       (let [current-daily (nth daily-data (dec index))
             previous-daily (nth daily-data (- index 2))
-            current-close (:close current-daily)
-            previous-close (:close previous-daily)]
+            current-close (get current-daily price-type)
+            previous-close (get previous-daily price-type)]
         (cond
           (nil? (get current-daily item)) false
           (nil? (get previous-daily item)) false
@@ -90,12 +90,12 @@
 
 (def rules
   {
-   :breakout-above-bollinger-upper         (->BreakoutRule :bollinger-upper :up)
-   :breakout-below-bollinger-lower         (->BreakoutRule :bollinger-lower :down)
-   :breakout-below-thinner-bollinger-upper (->BreakoutRule :thinner-bollinger-upper :down)
-   :breakout-above-thinner-bollinger-lower (->BreakoutRule :thinner-bollinger-lower :up)
-   :breakout-above-moving-average          (->BreakoutRule :moving-average :up)
-   :breakout-below-moving-average          (->BreakoutRule :moving-average :down)
+   :breakout-above-bollinger-upper         (->BreakoutRule :bollinger-upper :up :close)
+   :breakout-below-bollinger-lower         (->BreakoutRule :bollinger-lower :down :low)
+   :breakout-below-thinner-bollinger-upper (->BreakoutRule :thinner-bollinger-upper :down :close)
+   :breakout-above-thinner-bollinger-lower (->BreakoutRule :thinner-bollinger-lower :up :close)
+   :breakout-above-moving-average          (->BreakoutRule :moving-average :up :close)
+   :breakout-below-moving-average          (->BreakoutRule :moving-average :down :close)
    :position-empty                         (->PositionRule 0)
    :position-half                          (->PositionRule 1)
    :position-full                          (->PositionRule 2)
